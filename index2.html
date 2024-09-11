@@ -3,27 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Røyken Videregående Skole</title>
+    <title>Røyken Videregående Skole - Rektor og Skolens Ledelse</title>
     <link rel="stylesheet" href="style2.css">
 </head>
 <body>
     <div class="container">
         <h1>Velkommen til Røyken Videregående Skole</h1>
         <h2>Rektor og skolens ledelse</h2>
-        
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Søk etter person">
-            <button onclick="findPerson()">Finn ansatt</button>
-        </div>
+        <input type="text" id="searchInput" placeholder="Søk etter person" />
+        <button id="searchButton">Finn ansatt</button>
 
-        <div id="personInfo" class="person-info">
-            <img id="personImage" src="" alt="Personens bilde" class="person-image" style="display:none;">
-            <div>
-                <h3 id="personName"></h3>
-                <h4 id="personRole"></h4>
-                <p id="personDescription"></p>
-            </div>
-        </div>
+        <div id="results"></div>
     </div>
 
     <script src="script2.js"></script>

@@ -1,79 +1,55 @@
 const people = [
-    {
-        name: "Laila Johanne Handelsby",
-        role: "Rektor",
-        image: "bilde1.JPG",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Torben Andersen",
-        role: "Assisterende rektor",
-        image: "bilde2.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Martin Sandø-Frank",
-        role: "Studieleder",
-        image: "bilde3.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Cathrine Mannsaker",
-        role: "Undervisningsleder",
-        image: "bilde4.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Anette Øwre Bollvåg",
-        role: "Undervisningsleder",
-        image: "bilde5.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Anne Raastad-Hoel",
-        role: "Undervisningsleder",
-        image: "bilde6.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Erik Bergerud",
-        role: "Undervisningsleder",
-        image: "bilde7.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Camilla Engberg",
-        role: "Undervisningsleder",
-        image: "bilde8.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    },
-    {
-        name: "Sissel Moen",
-        role: "Administrasjonsleder",
-        image: "bilde9.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    }
+    { name: 'Laila Johanne Handelsby', title: 'Rektor', img: 'bilde1.jpg' },
+    { name: 'Torben Andersen', title: 'Assisterende rektor', img: 'bilde2.jpg' },
+    { name: 'Martin Sandø-Frank', title: 'Studieleder', img: 'bilde3.jpg' },
+    { name: 'Cathrine Mannsåker', title: 'Undervisningsleder', img: 'bilde4.jpg' },
+    { name: 'Anette Øwre Bollvåg', title: 'Undervisningsleder', img: 'bilde5.jpg' },
+    { name: 'Anne Raastad-Hoel', title: 'Undervisningsleder', img: 'bilde6.jpg' },
+    { name: 'Erik Bergerud', title: 'Undervisningsleder', img: 'bilde7.jpg' },
+    { name: 'Camilla Engberg', title: 'Undervisningsleder', img: 'bilde8.jpg' },
+    { name: 'Sissel Moen', title: 'Administrasjonsleder', img: 'bilde9.jpg' },
 ];
 
-function findPerson() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const personInfo = document.getElementById("personInfo");
-    const personName = document.getElementById("personName");
-    const personRole = document.getElementById("personRole");
-    const personDescription = document.getElementById("personDescription");
-    const personImage = document.getElementById("personImage");
+function displayResults(matches) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
 
-    const person = people.find(p => p.name.toLowerCase().includes(input));
-
-    if (person) {
-        personInfo.style.display = "flex";
-        personName.textContent = person.name;
-        personRole.textContent = person.role;
-        personDescription.textContent = person.description;
-        personImage.src = person.image;
-        personImage.style.display = "block";
-    } else {
-        personInfo.style.display = "none";
-        alert("Person ikke funnet.");
+    if (matches.length === 0) {
+        resultsContainer.innerHTML = '<p>Ingen personer funnet.</p>';
+        return;
     }
+
+    matches.forEach(person => {
+        const personCard = document.createElement('div');
+        personCard.classList.add('result');
+        personCard.innerHTML = `
+            <img src="${person.img}" alt="${person.name}">
+            <h3>${person.name}</h3>
+            <p>${person.title}</p>
+        `;
+        resultsContainer.appendChild(personCard);
+    });
 }
+
+function handleSearch() {
+    const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+    
+    if (searchTerm === '') {
+        document.getElementById('results').innerHTML = '<p>Vennligst skriv inn et navn for å søke.</p>';
+        return;
+    }
+
+    const matches = people.filter(person =>
+        person.name.toLowerCase().includes(searchTerm)
+    );
+
+    displayResults(matches);
+}
+
+document.getElementById('searchButton').addEventListener('click', handleSearch);
+
+document.getElementById('searchInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        handleSearch();
+    }
+});
